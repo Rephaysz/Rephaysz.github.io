@@ -2,140 +2,368 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[Nombre del integrante 4] · Grupo OSH</title>
-  <!-- Hoja de estilos propia de esta página -->
-  <link rel="stylesheet" href="estilos.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MATEX · Portafolio de diseño gráfico</title>
+  <meta name="description" content="Portafolio digital de MATEX, diseñador gráfico: proyectos, fotografía y video.">
+  <meta name="theme-color" content="#AE00FF">
+
+  <!-- Activa la animación de inicio solo si hay JavaScript -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- Montserrat (todas las fuentes de la página) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/png" href="img/Iso_png.png">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Menú -->
-  <nav class="menu">
-    <div class="contenedor">
-      <a class="marca" href="../../index.html">Grupo OSH</a>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#multimedia">Multimedia</a>
-      <a href="#contacto">Contacto</a>
+  <!-- =====================================================
+       ANIMACIÓN DE INICIO (isotipo + logotipo)
+       ===================================================== -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro__half intro__half--top"></div>
+    <div class="intro__half intro__half--bottom"><span class="intro__bar"></span></div>
+
+    <div class="intro__stage">
+      <div class="intro__badge">
+        <span class="intro__ring"></span>
+        <span class="intro__ring"></span>
+        <span class="intro__ring"></span>
+        <div class="intro__disc">
+          <img src="img/Iso_png.png" alt="">
+        </div>
+      </div>
+      <div class="intro__word">
+        <img src="img/logo png.png" alt="">
+      </div>
+      <button class="intro__skip" id="intro-skip" type="button">Saltar</button>
     </div>
-  </nav>
+  </div>
 
-  <!-- A · Identidad creativa -->
-  <header class="cabecera">
-    <div class="contenedor perfil">
-      <!-- Imagen: imagenes/perfil.jpg -->
-      <img src="imagenes/perfil.jpg" alt="Caro imagen">
-      <div>
-        <h1>[Nombre o identidad artística]</h1>
-        <p class="dorado"><strong>[Especialidad]</strong></p>
-        <p>[Breve presentación: quién eres y cuáles son tus intereses multimedia.]</p>
-        <p>[Qué tipo de contenidos te interesa diseñar o desarrollar.]</p>
-      </div>
-    </div>
-  </header>
+  <div class="site" id="site">
 
-  <main>
-    <!-- B · Mis trabajos creativos -->
-    <section class="seccion" id="proyectos">
-      <div class="contenedor">
-        <h2>Mis trabajos creativos</h2>
+    <!-- =====================================================
+         MENÚ
+         ===================================================== -->
+    <header class="nav">
+      <a class="nav__logo" href="#inicio" aria-label="MATEX, ir al inicio">
+        <img src="img/Iso_png.png" alt="">
+      </a>
 
-        <div class="tarjetas">
-          <figure class="tarjeta">
-            <!-- Imagen: imagenes/proyecto1.jpg -->
-            <img src="imagenes/proyecto1.jpg" alt="[Descripción de la imagen del proyecto 1]">
-            <figcaption>
-              <h3>[Nombre del proyecto 1]</h3>
-              <p>[Descripción breve del proyecto.]</p>
-              <p class="especialidad">Técnica: [herramienta o técnica]</p>
-            </figcaption>
-          </figure>
+      <input class="nav__check" type="checkbox" id="nav-toggle">
+      <label class="nav__burger" for="nav-toggle" aria-label="Abrir o cerrar el menú"><span></span></label>
 
-          <figure class="tarjeta">
-            <!-- Imagen: imagenes/proyecto2.jpg -->
-            <img src="imagenes/proyecto2.jpg" alt="[Descripción de la imagen del proyecto 2]">
-            <figcaption>
-              <h3>[Nombre del proyecto 2]</h3>
-              <p>[Descripción breve del proyecto.]</p>
-              <p class="especialidad">Técnica: [herramienta o técnica]</p>
-            </figcaption>
-          </figure>
-        </div>
-      </div>
-    </section>
+      <nav class="nav__menu" aria-label="Principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#sobre-mi">Sobre mí</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#galeria">Galería</a>
+        <a href="#videos">Videos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </header>
 
-    <!-- C · Experiencia multimedia -->
-    <section class="seccion" id="multimedia">
-      <div class="contenedor">
-        <h2>Experiencia multimedia</h2>
+    <main>
 
-        <div class="multimedia">
-          <h3>Audio</h3>
-          <!-- Archivo de audio: audio/audio.mp3 -->
-          <audio controls>
-            <source src="audio/audio.mp3" type="audio/mpeg">
-            Tu navegador no puede reproducir este audio.
-          </audio>
-          <p>[Descripción del audio.]</p>
+      <!-- =====================================================
+           INICIO
+           ===================================================== -->
+      <section class="hero" id="inicio">
+        <div class="hero__text">
+          <h1 class="hero__title" data-in style="--i:0">Hola, soy MATEX.</h1>
+          <p class="hero__lead" data-in style="--i:1">Diseñador gráfico. Aquí reúno mis proyectos, fotos y videos.</p>
+          <div class="hero__cta" data-in style="--i:2">
+            <a class="btn btn--solid" href="#proyectos">Ver proyectos</a>
+            <a class="btn btn--ghost" href="#contacto">Escríbeme</a>
+          </div>
         </div>
 
-        <div class="multimedia">
-          <h3>Video</h3>
-          <!-- Archivo de video: videos/video.mp4 -->
-          <video controls>
-            <source src="videos/video.mp4" type="video/mp4">
-            Tu navegador no puede reproducir este video.
-          </video>
-          <p>[Descripción del video.]</p>
+        <div class="hero__art" data-in style="--i:1" aria-hidden="true">
+          <span class="hero__ring hero__ring--1"></span>
+          <span class="hero__ring hero__ring--2"></span>
+          <span class="hero__blob"></span>
+          <div class="hero__disc">
+            <img src="img/Iso_png.png" alt="">
+          </div>
         </div>
+      </section>
 
-        <p><strong>Relación con mi perfil:</strong> [Explica cómo se relacionan el audio y el video con tu perfil creativo.]</p>
-      </div>
-    </section>
 
-    <!-- D · Formulario de contacto -->
-    <section class="seccion" id="contacto">
-      <div class="contenedor">
-        <h2>Formulario de contacto</h2>
-        <p class="aviso"><strong>Formulario demostrativo:</strong> no guarda datos ni envía mensajes reales. Pruébalo solo con datos ficticios.</p>
+      <!-- =====================================================
+           SOBRE MÍ
+           ===================================================== -->
+      <section class="section section--lilac" id="sobre-mi">
+        <div class="section__inner about">
+          <div class="about__photo">
+            <!-- FOTO: guarda tu retrato en img/retrato.jpg (vertical 3:4) -->
+            <figure class="slot r-3-4">
+              <span class="slot__hint">Retrato Ya Voa Poner</span>
+              <img src="img/Foto_Zuña.JPG" alt="Retrato de MATEX" loading="lazy" onerror="this.remove()">
+            </figure>
+          </div>
 
-        <form action="#" method="post" onsubmit="alert('Formulario demostrativo: el mensaje no fue enviado.'); return false;">
-          <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" required>
+          <div class="about__text">
+            <h2 class="section__title">Sobre mí</h2>
+            <p>Soy estudiante universitario de Diseño Multimedia en la Universidad Politécnica Salesiana del Ecuador, con experiencia en el desarrollo de soluciones visuales y creativas para medios digitales.</p>
+            <p>Me especializo en diseño publicitario, creación de identidades visuales, contenido gráfico para redes sociales, Motion Graphics y diseño Front-End. Me interesa combinar creatividad, comunicación visual y tecnología para desarrollar propuestas que transmitan ideas y aporten valor a las marcas.</p>
 
-          <label for="correo">Correo electrónico</label>
-          <input type="email" id="correo" name="correo" required>
+            <dl class="facts">
+              <div>
+                <dt>Me dedico a</dt>
+                <dd>[Diseño Gráfico, Multimedia....]</dd>
+              </div>
+              <div>
+                <dt>Vivo en</dt>
+                <dd>[Cuenca - Ecuador]</dd>
+              </div>
+              <div>
+                <dt>Herramientas</dt>
+                <dd>[Illustrator, Photoshop, After Effects…]</dd>
+              </div>
+              <div>
+                <dt>Idiomas</dt>
+                <dd>[Español, Inglés…]</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
 
-          <label for="tipo">Tipo de proyecto de interés</label>
-          <select id="tipo" name="tipo" required>
-            <option value="">-- Selecciona una opción --</option>
-            <option value="ilustracion">Ilustración</option>
-            <option value="animacion">Animación</option>
-            <option value="videojuegos">Videojuegos</option>
-            <option value="web">Diseño web</option>
-            <option value="audiovisual">Producción audiovisual</option>
-          </select>
+      <section class="section" id="proyectos">
+        <div class="section__inner">
+          <div class="section__head">
+            <h2 class="section__title">Proyectos</h2>
+            <p class="section__intro">Una selección de mi trabajo reciente.</p>
+          </div>
 
-          <fieldset>
-            <legend>Modalidad de colaboración</legend>
-            <label><input type="radio" name="modalidad" value="remota" required> Remota</label>
-            <label><input type="radio" name="modalidad" value="presencial"> Presencial</label>
-            <label><input type="radio" name="modalidad" value="hibrida"> Híbrida</label>
-          </fieldset>
+          <div class="projects">
+            <article class="project project--6 project--tall">
+              <figure class="slot">
+                <span class="slot__hint">Imagen del proyecto 1</span>
+                <img src="img/LogoHoneyTech_Pequeño.png" alt="Proyecto 1" loading="lazy" onerror="this.remove()">
+              </figure>
+              <div class="project__body">
+                <h3>Página Web para HoneyTech</h3>
+                <p>Desarrollo de página web para la empresa HoneyTech usando HTML y CSS.</p>
+                <ul class="tags"><li><a href="https://matex412.github.io/honneytechwebpage/">Ver Página Web</a></li><li>Desarrollo Front-End</li><li>Identidad visual</li><li>Desarrollo Web</li></ul>
+              </div>
+            </article>
 
-          <label for="mensaje">Mensaje</label>
-          <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+            <article class="project project--6 project--tall">
+              <figure class="slot">
+                <span class="slot__hint">Imagen del proyecto 2</span>
+                <img src="img/proyecto-2.jpg" alt="Proyecto 2" loading="lazy" onerror="this.remove()">
+              </figure>
+              <div class="project__body">
+                <h3>Nombre del proyecto 2</h3>
+                <p>Descripción del proyecto.</p>
+                <ul class="tags"><li>Afiches</li><li>Ilustración</li></ul>
+              </div>
+            </article>
 
-          <button type="submit">Enviar</button>
-        </form>
-      </div>
-    </section>
-  </main>
+            <article class="project project--4">
+              <figure class="slot">
+                <span class="slot__hint">Imagen del proyecto 3</span>
+                <img src="img/proyecto-3.jpg" alt="Proyecto 3" loading="lazy" onerror="this.remove()">
+              </figure>
+              <div class="project__body">
+                <h3>Nombre del proyecto 3</h3>
+                <p>Descripción del proyecto.</p>
+                <ul class="tags"><li>Packaging</li></ul>
+              </div>
+            </article>
 
-  <!-- E · Navegación -->
-  <footer class="pie">
-    <p><a href="../../index.html">Volver al equipo</a></p>
-    <p>[Nombre del integrante 4] · Grupo OSH</p>
-  </footer>
+            <article class="project project--4">
+              <figure class="slot">
+                <span class="slot__hint">Imagen del proyecto 4</span>
+                <img src="img/proyecto-4.jpg" alt="Proyecto 4" loading="lazy" onerror="this.remove()">
+              </figure>
+              <div class="project__body">
+                <h3>Nombre del proyecto 4</h3>
+                <p>Descripción del proyecto.</p>
+                <ul class="tags"><li>Editorial</li></ul>
+              </div>
+            </article>
 
+            <article class="project project--4">
+              <figure class="slot">
+                <span class="slot__hint">Imagen del proyecto 5</span>
+                <img src="img/proyecto-5.jpg" alt="Proyecto 5" loading="lazy" onerror="this.remove()">
+              </figure>
+              <div class="project__body">
+                <h3>Nombre del proyecto 5</h3>
+                <p>Descripción del proyecto.</p>
+                <ul class="tags"><li>Motion graphics</li></ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--purple" id="galeria">
+        <div class="section__inner">
+          <div class="section__head">
+            <h2 class="section__title">Galería</h2>
+            <p class="section__intro">Fotografías, bocetos y momentos del proceso creativo.</p>
+          </div>
+
+          <div class="gallery">
+            <figure class="slot r-3-4"><span class="slot__hint">Foto 1</span><img src="img/foto-1.jpg" alt="Foto 1" loading="lazy" onerror="this.remove()"></figure>
+            <figure class="slot r-1-1"><span class="slot__hint">Foto 2</span><img src="img/foto-2.jpg" alt="Foto 2" loading="lazy" onerror="this.remove()"></figure>
+            <figure class="slot r-4-3"><span class="slot__hint">Foto 3</span><img src="img/foto-3.jpg" alt="Foto 3" loading="lazy" onerror="this.remove()"></figure>
+            <figure class="slot r-4-3"><span class="slot__hint">Foto 4</span><img src="img/foto-4.jpg" alt="Foto 4" loading="lazy" onerror="this.remove()"></figure>
+            <figure class="slot r-3-4"><span class="slot__hint">Foto 5</span><img src="img/foto-5.jpg" alt="Foto 5" loading="lazy" onerror="this.remove()"></figure>
+            <figure class="slot r-1-1"><span class="slot__hint">Foto 6</span><img src="img/foto-6.jpg" alt="Foto 6" loading="lazy" onerror="this.remove()"></figure>
+            <figure class="slot r-3-4"><span class="slot__hint">Foto 7</span><img src="img/foto-7.jpg" alt="Foto 7" loading="lazy" onerror="this.remove()"></figure>
+            <figure class="slot r-3-4"><span class="slot__hint">Foto 8</span><img src="img/foto-8.jpg" alt="Foto 8" loading="lazy" onerror="this.remove()"></figure>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="section section--deep" id="videos">
+        <div class="section__inner">
+          <div class="section__head">
+            <h2 class="section__title">Videos</h2>
+            <p class="section__intro">Animaciones, reels y piezas audiovisuales.</p>
+          </div>
+
+          <div class="videos">
+            <figure class="slot slot--video videos__main">
+              <span class="slot__hint">Video principal (16:9)</span>
+              <video src="Videos/VideoPresentacionV1_1.mp4" poster="img/video-1.jpg" autoplay muted loop playsinline preload="auto" onerror="this.remove()"></video>
+            </figure>
+
+            <figure class="slot slot--video videos__tall">
+              <span class="slot__hint">Video vertical (9:16)</span>
+              <video src="video/video-vertical.mp4" controls playsinline preload="metadata" onerror="this.remove()"></video>
+            </figure>
+
+            <figure class="slot slot--video videos__small">
+              <span class="slot__hint">Video 2 (16:9)</span>
+              <video src="Videos/LogoRevealZuña.mp4" autoplay muted loop playsinline preload="auto"  onerror="this.remove()"></video>
+            </figure>
+
+            <figure class="slot slot--video videos__small">
+              <span class="slot__hint">Video 3 (16:9)</span>
+              <video src="video/video-3.mp4" controls playsinline preload="metadata" onerror="this.remove()"></video>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           SERVICIOS
+           ===================================================== -->
+      <section class="section" id="servicios">
+        <div class="section__inner">
+          <div class="section__head">
+            <h2 class="section__title">Servicios</h2>
+            <p class="section__intro">En qué puedo ayudarte. Edita esta lista con lo que ofreces.</p>
+          </div>
+
+          <ul class="services">
+            <li>
+              <h3>Identidad visual</h3>
+              <p>Logotipo, paleta, tipografía y manual de marca.</p>
+            </li>
+            <li>
+              <h3>Diseño gráfico</h3>
+              <p>Afiches, redes sociales, packaging y piezas impresas.</p>
+            </li>
+            <li>
+              <h3>Ilustración</h3>
+              <p>Personajes, íconos e ilustración editorial a medida.</p>
+            </li>
+            <li>
+              <h3>Motion graphics</h3>
+              <p>Animación de logos, títulos y piezas para video.</p>
+            </li>
+            <li>
+              <h3>Fotografía</h3>
+              <p>Foto de producto y retrato con edición incluida.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           CONTACTO
+           ===================================================== -->
+      <section class="section section--purple contact" id="contacto">
+        <div class="section__inner">
+          <h2 class="contact__title">¿Hacemos algo juntos?</h2>
+          <p class="contact__lead">Cuéntame tu idea y la conversamos.</p>
+          <a class="contact__mail" href="mailto:mateoalej96@gmail.com">mateoalej96@gmail.com</a>
+
+          <ul class="socials">
+            <li><a href="https://www.instagram.com/im_matex/" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.behance.net/mateozua" rel="noopener">Behance</a></li>
+            <li><a href="www.linkedin.com/in/mateo-zuña-idrovo-492bab450" rel="noopener">LinkedIn</a></li>
+            <li><a href="#" rel="noopener">Fiverr</a></li>
+          </ul>
+
+          <img class="contact__word" src="img/LogoLetra_MATE.png" alt="MATEX, diseñador gráfico">
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 MATEX. Todos los derechos reservados.</p>
+      <a href="#inicio">Volver arriba</a>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      var body = document.body;
+      var intro = document.getElementById('intro');
+      var site = document.getElementById('site');
+      var skipBtn = document.getElementById('intro-skip');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var finished = false, tReady, tClean;
+
+      function ready() {
+        if (finished) return;
+        finished = true;
+        body.classList.add('is-ready');
+        site.removeAttribute('inert');
+      }
+      function cleanup() {
+        if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+      }
+      function skip() {
+        clearTimeout(tReady); clearTimeout(tClean);
+        intro.classList.add('is-skipped');
+        ready();
+        setTimeout(cleanup, 500);
+      }
+
+      if (reduce) { ready(); cleanup(); }
+      else {
+        site.setAttribute('inert', '');
+        skipBtn.addEventListener('click', skip);
+        tReady = setTimeout(ready, 4400);   // el hero entra mientras se abre la cortina
+        tClean = setTimeout(cleanup, 5400); // se retira la intro del documento
+      }
+
+      // Menú móvil: se cierra al elegir una sección o con Escape
+      var toggle = document.getElementById('nav-toggle');
+      document.querySelectorAll('.nav__menu a').forEach(function (a) {
+        a.addEventListener('click', function () { toggle.checked = false; });
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') toggle.checked = false;
+      });
+    })();
+  </script>
 </body>
 </html>
