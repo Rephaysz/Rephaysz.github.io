@@ -1,0 +1,257 @@
+/* Colores y fuentes */
+body {
+  margin: 0;
+  font-family: "Iceberg", sans-serif;
+  background-color: #ffffff;
+  color: #333333;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: "Iceberg", sans-serif;
+  font-weight: 500;
+  font-style: bold;
+}
+
+a {
+  color: #138a8f;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Contenedor centrado */
+.contenedor {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Menú superior */
+.menu {
+  background-color: #0f1530;
+  padding: 12px 0;
+}
+
+.menu a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 18px;
+}
+
+.menu a:hover {
+  color: #f3c969;
+}
+
+.marca {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/* Cabecera */
+.cabecera {
+  background-image: 
+    linear-gradient(rgba(15, 23, 58, 0.55), rgba(15, 23, 58, 0.55)),
+    url('imagenes/portada.jpeg');
+  color: #000000;
+  text-align: center;
+  padding: 70px 20px;
+  
+}
+
+.cabecera h1 {
+  color: #000000;
+  font-size: 48px;
+  margin: 0 0 10px;
+}
+
+.cabecera p {
+  color: #dfe3f5;
+  font-size: 18px;
+}
+
+.dorado {
+  color: #f3c969;
+}
+
+/* Botones */
+.boton {
+  display: inline-block;
+  background-color: #e0a93b;
+  color: #0f1530;
+  padding: 10px 22px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.boton:hover {
+  background-color: #f3c969;
+}
+
+/* Secciones */
+.seccion {
+  padding: 50px 0;
+}
+
+/* Tarjetas (integrantes y proyectos) */
+.tarjetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.tarjeta {
+  flex: 1 1 400px;
+  background-color: #ffffff;
+  border: 1px solid #e3ddcf;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0;
+}
+
+.tarjeta img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  background-color: #e9e4f5;
+}
+
+.tarjeta .texto,
+.tarjeta figcaption {
+  padding: 15px 18px 20px;
+}
+
+.tarjeta h3 {
+  margin: 0 0 5px;
+}
+
+.Sobrenombre {
+  color: #138a8f;
+  font-weight: bold;
+  margin: 0 0 10px;
+}
+
+/* Página personal: presentación */
+.perfil {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+  text-align: left;
+}
+
+.perfil img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #f3c969;
+  background-color: #2b3570;
+}
+
+.perfil div {
+  flex: 1 1 300px;
+}
+
+/* Audio y video */
+.multimedia {
+  background-color: #ffffff;
+  border: 1px solid #e3ddcf;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+audio,
+video {
+  width: 100%;
+  margin: 10px 0;
+}
+
+/* Formulario */
+form {
+  background-color: #ffffff;
+  border: 1px solid #e3ddcf;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 650px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+fieldset {
+  margin-top: 12px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+}
+
+fieldset label {
+  display: inline;
+  font-weight: normal;
+  margin-right: 15px;
+}
+
+button {
+  margin-top: 15px;
+  background-color: #0f1530;
+  color: #ffffff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #138a8f;
+}
+
+.aviso {
+  background-color: #e6f4f4;
+  border-left: 4px solid #138a8f;
+  padding: 10px 15px;
+}
+
+/* Pie de página */
+.pie {
+  background-color: #0f1530;
+  color: #dfe3f5;
+  text-align: center;
+  padding: 25px 0;
+}
+
+.pie a {
+  color: #f3c969;
+}
+
+/* Celulares */
+@media (max-width: 600px) {
+  .cabecera h1 {
+    font-size: 34px;
+  }
+
+  .perfil {
+    justify-content: center;
+    text-align: center;
+  }
+}
