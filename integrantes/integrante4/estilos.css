@@ -771,6 +771,77 @@ body:has(#nav-toggle:checked) { overflow: hidden; }
 
 
 /* ==========================================================
+   LABORATORIO (canvas interactivo)
+   Misma paleta, Montserrat y formas redondeadas del sitio
+   ========================================================== */
+.lab__tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.lab__spacer { flex: 1; }
+
+.chip {
+  padding: 10px 22px;
+  border: 2px solid var(--lilac-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--white);
+  font-weight: 700;
+  font-size: .9rem;
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+.chip:hover { transform: translateY(-2px); background: rgba(255, 255, 255, .12); }
+.chip.is-active { background: var(--purple); border-color: var(--purple); }
+.chip--ghost { border-color: rgba(255, 255, 255, .5); }
+.chip--solid { background: var(--white); border-color: var(--white); color: var(--purple); }
+.chip--solid:hover { background: var(--lilac); color: var(--purple-dark); }
+
+.lab__stage {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  min-height: 340px;
+  border-radius: var(--r-lg);
+  background: var(--deep);
+  box-shadow: 0 0 0 2px rgba(231, 194, 255, .25), 0 28px 60px rgba(0, 0, 0, .35);
+}
+.lab__stage canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: pan-y; /* en móvil se puede seguir haciendo scroll */
+}
+.lab__stage.is-draw canvas { touch-action: none; } /* al dibujar, el dedo no hace scroll */
+
+.lab__hint {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  color: var(--white);
+  font-size: .8rem;
+  font-weight: 600;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+@media (max-width: 640px) {
+  .lab__stage { aspect-ratio: 4 / 5; min-height: 0; }
+  .lab__spacer { display: none; }
+}
+
+
+/* ==========================================================
    CONTACTO
    ========================================================== */
 .contact { padding-bottom: clamp(48px, 6vw, 80px); }
