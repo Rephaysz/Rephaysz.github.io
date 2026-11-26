@@ -63,6 +63,7 @@
         <a href="#galeria">Galería</a>
         <a href="#videos">Videos</a>
         <a href="#servicios">Servicios</a>
+        <a href="#lab">Lab</a>
         <a href="#contacto">Contacto</a>
       </nav>
     </header>
@@ -294,6 +295,32 @@
 
 
       <!-- =====================================================
+           LABORATORIO (canvas interactivo)
+           ===================================================== -->
+      <section class="section section--deep lab" id="lab">
+        <div class="section__inner">
+          <div class="section__head">
+            <h2 class="section__title">Laboratorio</h2>
+            <p class="section__intro">Juega con la identidad de MATEX: mueve el cursor, haz clic o dibuja con la paleta.</p>
+          </div>
+
+          <div class="lab__tools" role="group" aria-label="Controles del lienzo">
+            <button class="chip is-active" type="button" data-mode="flow" aria-pressed="true">Partículas</button>
+            <button class="chip" type="button" data-mode="draw" aria-pressed="false">Dibujar</button>
+            <span class="lab__spacer"></span>
+            <button class="chip chip--ghost" type="button" id="lab-clear">Limpiar</button>
+            <button class="chip chip--solid" type="button" id="lab-save">Guardar PNG</button>
+          </div>
+
+          <div class="lab__stage">
+            <canvas id="lab-canvas" role="img" aria-label="Lienzo interactivo con partículas moradas y el isotipo de MATEX"></canvas>
+            <p class="lab__hint" id="lab-hint">Haz clic para lanzar ondas</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =====================================================
            CONTACTO
            ===================================================== -->
       <section class="section section--purple contact" id="contacto">
@@ -363,6 +390,278 @@
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') toggle.checked = false;
       });
+    })();
+  </script>
+
+  <script>
+    /* ===== Laboratorio: canvas con la identidad MATEX ===== */
+    (function () {
+      var canvas = document.getElementById('lab-canvas');
+      if (!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext('2d');
+      var stage = canvas.parentNode;
+      var hint = document.getElementById('lab-hint');
+      var chips = document.querySelectorAll('.lab__tools [data-mode]');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var PURPLE = '#AE00FF', DARK = '#7A00B3', DEEP = '#1E0033', LILAC = '#E7C2FF', WHITE = '#FFFFFF';
+      var PALETTE = [PURPLE, LILAC, WHITE, DARK];
+
+      var ink = document.createElement('canvas');
+      var ictx = ink.getContext('2d');
+      var iso = new Image();
+      var isoOK = false;
+      iso.onload = function () { isoOK = true; if (reduce) draw(); };
+      iso.src = 'img/Iso_png.png';
+
+      var w = 0, h = 0, dpr = 1;
+      var parts = [], rings = [];
+      var mouse = { x: -999, y: -999, down: false, on: false, px: 0, py: 0 };
+      var mode = 'flow';
+      var visible = true, raf = 0;
+
+      function rand(a, b) { return a + Math.random() * (b - a); }
+
+      function makeParts() {
+        var n = Math.min(90, Math.round(w * h / 13000));
+        parts = [];
+        for (var i = 0; i < n; i++) {
+          parts.push({
+            x: rand(0, w), y: rand(0, h),
+            vx: rand(-.25, .25), vy: rand(-.25, .25),
+            r: rand(1.5, 4.5),
+            c: PALETTE[(Math.random() * PALETTE.length) | 0]
+          });
+        }
+      }
+
+      function resize() {
+        var r = stage.getBoundingClientRect();
+        var old = null;
+        if (w && ink.width) { old = document.createElement('canvas'); old.width = ink.width; old.height = ink.height; old.getContext('2d').drawImage(ink, 0, 0); }
+        w = Math.max(1, Math.round(r.width));
+        h = Math.max(1, Math.round(r.height));
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = ink.width = Math.round(w * dpr);
+        canvas.height = ink.height = Math.round(h * dpr);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ictx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        if (old) ictx.drawImage(old, 0, 0, old.width / dpr, old.height / dpr);
+        makeParts();
+        draw();
+      }
+
+      function pos(e) {
+        var r = canvas.getBoundingClientRect();
+        return { x: e.clientX - r.left, y: e.clientY - r.top };
+      }
+
+      function burst(x, y) {
+        for (var i = 0; i < 3; i++) {
+          rings.push({ x: x, y: y, r: 6, max: Math.min(w, h) * (.28 + i * .1), a: .85, delay: i * 9 });
+        }
+        for (var j = 0; j < 14; j++) {
+          var ang = Math.random() * Math.PI * 2, sp = rand(1.2, 3.4);
+          parts.push({ x: x, y: y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, r: rand(2, 5), c: PALETTE[(Math.random() * PALETTE.length) | 0], life: 60 });
+        }
+        if (reduce) draw();
+      }
+
+      function stamp(x0, y0, x1, y1) {
+        var dx = x1 - x0, dy = y1 - y0, dist = Math.sqrt(dx * dx + dy * dy);
+        var steps = Math.max(1, Math.round(dist / 6));
+        var size = Math.max(5, Math.min(20, 20 - dist * .5));
+        for (var i = 0; i < steps; i++) {
+          var t = i / steps;
+          ictx.beginPath();
+          ictx.arc(x0 + dx * t + rand(-3, 3), y0 + dy * t + rand(-3, 3), size * rand(.5, 1), 0, Math.PI * 2);
+          ictx.fillStyle = PALETTE[(Math.random() * PALETTE.length) | 0];
+          ictx.globalAlpha = rand(.55, .95);
+          ictx.fill();
+        }
+        ictx.globalAlpha = 1;
+      }
+
+      function update() {
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var p = parts[i];
+          if (p.life !== undefined) { p.life--; p.vx *= .96; p.vy *= .96; if (p.life <= 0) { parts.splice(i, 1); continue; } }
+          if (mouse.on && mode === 'flow') {
+            var dx = mouse.x - p.x, dy = mouse.y - p.y, d2 = dx * dx + dy * dy;
+            if (d2 < 22500 && d2 > 1) { var f = .0009; p.vx += dx * f; p.vy += dy * f; }
+          }
+          var sp = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+          if (sp > 1.6 && p.life === undefined) { p.vx *= .97; p.vy *= .97; }
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < -10) p.x = w + 10; else if (p.x > w + 10) p.x = -10;
+          if (p.y < -10) p.y = h + 10; else if (p.y > h + 10) p.y = -10;
+        }
+        for (var k = rings.length - 1; k >= 0; k--) {
+          var rg = rings[k];
+          if (rg.delay > 0) { rg.delay--; continue; }
+          rg.r += (rg.max - rg.r) * .045 + .6;
+          rg.a *= .975;
+          if (rg.a < .02) rings.splice(k, 1);
+        }
+      }
+
+      function draw(skipIso) {
+        // fondo
+        var g = ctx.createRadialGradient(w * .5, h * .5, 0, w * .5, h * .5, Math.max(w, h) * .75);
+        g.addColorStop(0, '#3A0066');
+        g.addColorStop(1, DEEP);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, w, h);
+
+        // texto de marca (Montserrat 900)
+        var fs = Math.min(w * .2, h * .34);
+        ctx.font = '900 ' + fs + 'px Montserrat, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+        if ('letterSpacing' in ctx) ctx.letterSpacing = (-fs * .045) + 'px';
+        ctx.fillStyle = 'rgba(174, 0, 255, .22)';
+        ctx.fillText('MATEX', w * .035, h - h * .05);
+        if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+
+        // dibujo del usuario
+        ctx.drawImage(ink, 0, 0, w, h);
+
+        // líneas entre partículas
+        var i, j, a, b, dx, dy, d;
+        ctx.lineWidth = 1;
+        for (i = 0; i < parts.length; i++) {
+          a = parts[i];
+          for (j = i + 1; j < parts.length; j++) {
+            b = parts[j]; dx = a.x - b.x; dy = a.y - b.y; d = dx * dx + dy * dy;
+            if (d < 12100) {
+              ctx.strokeStyle = 'rgba(231, 194, 255,' + (.32 * (1 - d / 12100)) + ')';
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            }
+          }
+          if (mouse.on && mode === 'flow') {
+            dx = a.x - mouse.x; dy = a.y - mouse.y; d = dx * dx + dy * dy;
+            if (d < 28900) {
+              ctx.strokeStyle = 'rgba(255, 255, 255,' + (.7 * (1 - d / 28900)) + ')';
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+            }
+          }
+        }
+        // puntos
+        for (i = 0; i < parts.length; i++) {
+          a = parts[i];
+          ctx.fillStyle = a.c;
+          ctx.globalAlpha = a.life !== undefined ? Math.min(1, a.life / 30) : .9;
+          ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+
+        // ondas (como las de la intro)
+        for (i = 0; i < rings.length; i++) {
+          var rg = rings[i];
+          if (rg.delay > 0) continue;
+          ctx.strokeStyle = 'rgba(255, 255, 255,' + rg.a + ')';
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.arc(rg.x, rg.y, rg.r, 0, Math.PI * 2); ctx.stroke();
+        }
+
+        // isotipo en disco blanco, flotando
+        var t = reduce ? 0 : performance.now() / 1000;
+        var R = Math.min(w, h) * .13;
+        var cx = w * .5, cy = h * .5 + Math.sin(t * 1.05) * R * .08;
+        for (i = 1; i <= 2; i++) {
+          ctx.strokeStyle = 'rgba(174, 0, 255,' + (.5 / i) + ')';
+          ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.arc(cx, cy, R * (1 + i * .22), 0, Math.PI * 2); ctx.stroke();
+        }
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, .35)';
+        ctx.shadowBlur = R * .5;
+        ctx.shadowOffsetY = R * .15;
+        ctx.fillStyle = WHITE;
+        ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+        if (isoOK && !skipIso) {
+          var s = R * 1.4, ratio = iso.naturalHeight / iso.naturalWidth;
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.rotate(Math.sin(t * .8) * .05);
+          ctx.drawImage(iso, -s / 2, -s * ratio / 2, s, s * ratio);
+          ctx.restore();
+        }
+      }
+
+      function loop() {
+        raf = 0;
+        if (!visible || reduce) return;
+        update(); draw();
+        raf = requestAnimationFrame(loop);
+      }
+      function start() { if (!raf && visible && !reduce) raf = requestAnimationFrame(loop); }
+
+      // ---- eventos ----
+      canvas.addEventListener('pointermove', function (e) {
+        var p = pos(e);
+        mouse.on = true;
+        if (mode === 'draw' && mouse.down) stamp(mouse.x, mouse.y, p.x, p.y);
+        mouse.x = p.x; mouse.y = p.y;
+        if (reduce) draw();
+      });
+      canvas.addEventListener('pointerleave', function () { mouse.on = false; mouse.down = false; });
+      canvas.addEventListener('pointerdown', function (e) {
+        var p = pos(e);
+        mouse.x = p.x; mouse.y = p.y; mouse.on = true; mouse.down = true;
+        if (canvas.setPointerCapture) { try { canvas.setPointerCapture(e.pointerId); } catch (_) {} }
+        if (mode === 'draw') { stamp(p.x, p.y, p.x, p.y); if (reduce) draw(); }
+        else burst(p.x, p.y);
+      });
+      canvas.addEventListener('pointerup', function () { mouse.down = false; });
+      canvas.addEventListener('pointercancel', function () { mouse.down = false; });
+
+      chips.forEach(function (c) {
+        c.addEventListener('click', function () {
+          mode = c.getAttribute('data-mode');
+          chips.forEach(function (o) {
+            var on = o === c;
+            o.classList.toggle('is-active', on);
+            o.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          stage.classList.toggle('is-draw', mode === 'draw');
+          hint.textContent = mode === 'draw' ? 'Mantén presionado y arrastra para dibujar' : 'Haz clic para lanzar ondas';
+          if (reduce) draw();
+        });
+      });
+
+      document.getElementById('lab-clear').addEventListener('click', function () {
+        ictx.clearRect(0, 0, w, h); rings.length = 0; draw();
+      });
+
+      document.getElementById('lab-save').addEventListener('click', function () {
+        function save(blob) {
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'matex-lab.png';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+        }
+        draw();
+        try { canvas.toBlob(function (b) { if (b) save(b); }); }
+        catch (err) { // si el isotipo "ensucia" el canvas (abrir como archivo local), se guarda sin él
+          draw(true);
+          canvas.toBlob(function (b) { if (b) save(b); draw(); });
+        }
+      });
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible) start(); }, { threshold: .05 }).observe(stage);
+      }
+      window.addEventListener('resize', function () { resize(); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { draw(); });
+
+      resize();
+      start();
     })();
   </script>
 </body>
