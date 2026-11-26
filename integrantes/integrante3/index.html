@@ -15,6 +15,7 @@
   <a href="#proyecto-1" title="Proyecto 1"></a>
   <a href="#proyecto-2" title="Proyecto 2"></a>
   <a href="#proyecto-3" title="Proyecto 3"></a>
+  <a href="#interactivo" title="Juega con la marca"></a>
   <a href="#contacto" title="Contacto"></a>
 </nav>
 
@@ -102,6 +103,16 @@
   <!-- Para añadir otro proyecto: copia una sección completa, cambia el id
        (por ejemplo proyecto-4) y agrega un punto en el menú de arriba. -->
 
+  <!-- ============ DIAPOSITIVA: LIENZO INTERACTIVO ============ -->
+  <section class="slide play" id="interactivo">
+    <canvas id="lienzo" aria-label="Lienzo interactivo con el logo JS"></canvas>
+    <div class="play-ui">
+      <p class="role">Laboratorio</p>
+      <h2>Juega con la marca</h2>
+      <p class="hint"><span class="hint-mouse">Mueve el cursor y haz clic para lanzar una onda.</span><span class="hint-touch">Toca la pantalla para lanzar una onda.</span></p>
+    </div>
+  </section>
+
   <!-- ============ DIAPOSITIVA 6: CONTACTO ============ -->
   <section class="slide cover" id="contacto">
     <div class="wrap">
@@ -141,6 +152,179 @@
       "filter:blur(" + ((1 - prof) * 1.2).toFixed(1) + "px);";
     cont.appendChild(img);
   }
+})();
+</script>
+
+<script>
+/* Lienzo interactivo: red de logos JS que reacciona al cursor y a las ondas */
+(function () {
+  const sec = document.getElementById("interactivo");
+  const cv = document.getElementById("lienzo");
+  if (!sec || !cv) return;
+  const ctx = cv.getContext("2d");
+  const reducir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* Ajustes */
+  const SEPARACION = 92;                 // distancia entre logos
+  const RADIO = 180;                     // alcance del cursor
+  const COLOR_BASE = "#c1bead";          // beige del patrón original
+  const COLOR_ACTIVO = "#5f86ff";        // azul de acento
+  const COLOR_ONDA = "47,91,255";        // rgb de las ondas
+
+  const logo = new Image();
+  logo.src = "imagenes/js-logo.png";
+  let W, H, dpr, lw, lh, items = [], ondas = [], tA, tB;
+  let ratón = { x: -999, y: -999 }, corriendo = false, ultimoToque = performance.now(), prev = 0;
+
+  function teñir(color) {
+    const c = document.createElement("canvas");
+    c.width = logo.naturalWidth; c.height = logo.naturalHeight;
+    const g = c.getContext("2d");
+    g.drawImage(logo, 0, 0);
+    g.globalCompositeOperation = "source-in";
+    g.fillStyle = color; g.fillRect(0, 0, c.width, c.height);
+    return c;
+  }
+
+  function construir() {
+    const r = sec.getBoundingClientRect();
+    W = r.width; H = r.height;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    lw = Math.max(28, Math.min(44, W / 32));
+    lh = lw * logo.naturalHeight / logo.naturalWidth;
+    items = [];
+    const cols = Math.ceil(W / SEPARACION) + 2, filas = Math.ceil(H / SEPARACION) + 2;
+    for (let f = -1; f < filas; f++) for (let c = -1; c < cols; c++) {
+      const hx = c * SEPARACION + (f % 2 ? SEPARACION / 2 : 0);
+      const hy = f * SEPARACION;
+      items.push({ hx, hy, x: hx, y: hy, vx: 0, vy: 0, a: 0, va: 0, s: 1, calor: 0, fase: Math.random() * 6.28 });
+    }
+    if (!corriendo) dibujar(performance.now());
+  }
+
+  function onda(x, y) {
+    ondas.push({ x, y, t: performance.now() });
+    ultimoToque = performance.now();
+  }
+
+  function dibujar(ahora) {
+    ctx.clearRect(0, 0, W, H);
+
+    /* resplandor del cursor */
+    if (ratón.x > -900) {
+      const g = ctx.createRadialGradient(ratón.x, ratón.y, 0, ratón.x, ratón.y, RADIO * 1.5);
+      g.addColorStop(0, "rgba(" + COLOR_ONDA + ",0.35)");
+      g.addColorStop(1, "rgba(" + COLOR_ONDA + ",0)");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    }
+
+    /* anillos de las ondas */
+    const maxR = Math.hypot(W, H) + 120;
+    for (const o of ondas) {
+      const r = (ahora - o.t) * 0.55;
+      const alfa = Math.max(0, 1 - r / maxR) * 0.55;
+      ctx.beginPath(); ctx.arc(o.x, o.y, r, 0, 6.2832);
+      ctx.strokeStyle = "rgba(" + COLOR_ONDA + "," + alfa + ")";
+      ctx.lineWidth = 2; ctx.stroke();
+    }
+
+    /* logos */
+    for (const it of items) {
+      ctx.save();
+      ctx.translate(it.x, it.y);
+      ctx.rotate(it.a);
+      ctx.scale(it.s, it.s);
+      ctx.globalAlpha = 0.3 * (1 - it.calor * 0.6);
+      ctx.drawImage(tA, -lw / 2, -lh / 2, lw, lh);
+      if (it.calor > 0.02) {
+        ctx.globalAlpha = Math.min(1, it.calor * 1.1);
+        ctx.drawImage(tB, -lw / 2, -lh / 2, lw, lh);
+      }
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function paso(ahora) {
+    if (!corriendo) return;
+    const dt = Math.min(48, ahora - (prev || ahora)); prev = ahora;
+    const k = dt / 16.7;
+    const maxR = Math.hypot(W, H) + 120;
+
+    /* onda automática si nadie interactúa */
+    if (ahora - ultimoToque > 4500) onda(Math.random() * W, Math.random() * H);
+
+    ondas = ondas.filter(o => (ahora - o.t) * 0.55 < maxR);
+
+    for (const it of items) {
+      /* deriva suave para que siempre tenga vida */
+      const tx = it.hx + Math.sin(ahora * 0.0009 + it.fase) * 5;
+      const ty = it.hy + Math.cos(ahora * 0.0007 + it.fase) * 5;
+      let calor = 0;
+
+      /* cursor: empuja y calienta */
+      const dx = it.x - ratón.x, dy = it.y - ratón.y, d = Math.hypot(dx, dy) || 1;
+      if (d < RADIO) {
+        const f = 1 - d / RADIO;
+        it.vx += dx / d * f * f * 2.2 * k;
+        it.vy += dy / d * f * f * 2.2 * k;
+        it.va += (dx > 0 ? 1 : -1) * f * 0.012 * k;
+        calor = Math.max(calor, f);
+      }
+
+      /* ondas: empujan y giran al pasar */
+      for (const o of ondas) {
+        const r = (ahora - o.t) * 0.55;
+        const ox = it.x - o.x, oy = it.y - o.y, od = Math.hypot(ox, oy) || 1;
+        const delta = Math.abs(od - r);
+        if (delta < 70) {
+          const q = 1 - delta / 70;
+          const fade = Math.max(0, 1 - r / maxR);
+          it.vx += ox / od * q * q * 3.4 * fade * k;
+          it.vy += oy / od * q * q * 3.4 * fade * k;
+          it.va += q * 0.05 * fade * k;
+          calor = Math.max(calor, q * fade);
+        }
+      }
+
+      /* resorte hacia su lugar */
+      it.vx += (tx - it.x) * 0.045 * k;
+      it.vy += (ty - it.y) * 0.045 * k;
+      it.vx *= Math.pow(0.86, k); it.vy *= Math.pow(0.86, k);
+      it.x += it.vx * k; it.y += it.vy * k;
+
+      it.va += -it.a * 0.05 * k; it.va *= Math.pow(0.9, k); it.a += it.va * k;
+
+      it.calor += (calor - it.calor) * 0.18;
+      it.s += ((1 + it.calor * 0.9) - it.s) * 0.2;
+    }
+
+    dibujar(ahora);
+    requestAnimationFrame(paso);
+  }
+
+  function pos(e) {
+    const r = cv.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+  cv.addEventListener("pointermove", e => { if (e.pointerType === "touch") return; ratón = pos(e); ultimoToque = performance.now(); });
+  cv.addEventListener("pointerleave", () => { ratón = { x: -999, y: -999 }; });
+  cv.addEventListener("pointerdown", e => { const p = pos(e); onda(p.x, p.y); });
+
+  function iniciar() {
+    tA = teñir(COLOR_BASE); tB = teñir(COLOR_ACTIVO);
+    construir();
+    if (reducir) return;               /* sin movimiento: solo la red estática */
+    new ResizeObserver(construir).observe(sec);
+    new IntersectionObserver(es => {
+      const visible = es[0].isIntersecting;
+      if (visible && !corriendo) { corriendo = true; prev = 0; requestAnimationFrame(paso); }
+      if (!visible) corriendo = false;
+    }, { threshold: 0.1 }).observe(sec);
+  }
+  if (logo.complete && logo.naturalWidth) iniciar(); else logo.onload = iniciar;
 })();
 </script>
 </body>
