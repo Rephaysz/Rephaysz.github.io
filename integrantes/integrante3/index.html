@@ -22,10 +22,12 @@
 
   <!-- ============ DIAPOSITIVA 1: PORTADA ============ -->
   <section class="slide cover" id="inicio">
+    <!-- Lluvia de logos: se genera con el script del final -->
+    <div class="rain" aria-hidden="true"></div>
     <div class="wrap">
       <p class="role">Diseñador gráfico / Productor Audiovisual / Fotógrafo </p>
       <h1>Juanse<br></h1>
-      <p class="lead">Trabajo y disciplina para lograr la exelencia del trabajo.</p>
+      <p class="lead">Trabajo y disciplina para lograr la excelencia del trabajo.</p>
       <a class="btn" href="#proyecto-1">Ver mis trabajos</a>
     </div>
   </section>
@@ -35,19 +37,17 @@
     <div class="wrap split">
       <figure class="media portrait">
         <!-- Cambia el nombre del archivo por tu foto (guárdala en la carpeta "imagenes") -->
-        <img src="imagenes/foto-perfil.jpg" alt="Foto de perfil" onerror="this.remove()">
+        <img src="imagenes/perfil.jpg" alt="Foto de perfil" onerror="this.remove()">
       </figure>
       <div>
         <h2>Sobre mí</h2>
-        <p>Escribe aquí un párrafo breve sobre tu trayectoria, tu forma de trabajar y lo que te diferencia.</p>
-        <p>Segundo párrafo opcional: Bachiller especializado en electromecajica automotriz,estudiante de diseño multimedia.</p>
+        <p>Soy diseñador gráfico, productor audiovisual y fotógrafo. Me mueve el trabajo constante y la disciplina para entregar proyectos con la mejor calidad posible.</p>
+        <p>Bachiller especializado en electromecánica automotriz y estudiante de diseño multimedia.</p>
         <ul class="tags">
           <li>Photoshop</li>
           <li>Figma</li>
-          <li>After efects</li>
-          <li>Fl studio
-        
-          </li>
+          <li>After Effects</li>
+          <li>FL Studio</li>
         </ul>
       </div>
     </div>
@@ -117,5 +117,31 @@
   </section>
 
 </main>
+
+<script>
+/* Lluvia suave de logos. Ajusta estos valores a tu gusto */
+(function () {
+  const CANTIDAD = 30;          // cuántos logos caen a la vez
+  const LOGO = "imagenes/js-logo.png";
+  const cont = document.querySelector("#inicio .rain");
+  if (!cont) return;
+  for (let i = 0; i < CANTIDAD; i++) {
+    const img = document.createElement("img");
+    img.src = LOGO; img.alt = "";
+    const r = (a, b) => a + Math.random() * (b - a);
+    const s = r(22, 64);                       // tamaño (px)
+    const prof = (s - 22) / 42;                // 0 = lejos, 1 = cerca
+    img.style.cssText =
+      "left:" + r(0, 98) + "%;width:" + s + "px;" +
+      "--op:" + (0.08 + prof * 0.18).toFixed(2) + ";" +
+      "--sway:" + r(-30, 30).toFixed(0) + "px;" +
+      "--rot:" + r(-12, 12).toFixed(0) + "deg;" +
+      "animation-duration:" + (22 - prof * 10 + r(0, 5)).toFixed(1) + "s;" +
+      "animation-delay:-" + r(0, 24).toFixed(1) + "s;" +
+      "filter:blur(" + ((1 - prof) * 1.2).toFixed(1) + "px);";
+    cont.appendChild(img);
+  }
+})();
+</script>
 </body>
 </html>

@@ -48,7 +48,7 @@ p { max-width: 52ch; margin-bottom: 1rem; }
   background: repeating-linear-gradient(45deg, #c9d4de, #c9d4de 12px, #d6dee6 12px, #d6dee6 24px);
 }
 .media.portrait { aspect-ratio: 4 / 5; max-width: 340px; }
-.media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.media img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; display: block; }
 
 /* Etiquetas de habilidades */
 .tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
@@ -79,3 +79,21 @@ a:focus-visible { outline: 3px solid var(--acento); outline-offset: 3px; }
   .slide { padding: 3rem 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ===== Lluvia de logos en la portada ===== */
+#inicio { position: relative; overflow: hidden; }
+#inicio .wrap { position: relative; z-index: 1; }
+.rain { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.rain img {
+  position: absolute; top: 0; height: auto;
+  opacity: 0; will-change: transform, opacity;
+  animation: caer linear infinite;
+}
+@keyframes caer {
+  0%   { transform: translate3d(0, -20vh, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: var(--op); }
+  50%  { transform: translate3d(var(--sway), 55vh, 0) rotate(var(--rot)); }
+  90%  { opacity: var(--op); }
+  100% { transform: translate3d(0, 120vh, 0) rotate(0deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .rain { display: none; } }
