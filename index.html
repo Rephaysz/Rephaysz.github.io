@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupo OSH · Diseño Multimedia</title>
+  <link rel="icon" type="image/svg+xml" href="imagenes/logo-osh.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Títulos: Iceberg (Cyreal) · Textos: Tektur (Adam Jagosz) -->
+  <link href="https://fonts.googleapis.com/css2?family=Iceberg&family=Tektur:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <!-- El logo de OSH, dibujado una sola vez y reutilizado en toda la página -->
+  <svg class="oculto" aria-hidden="true">
+    <defs>
+      <path id="osh" pathLength="1" fill-rule="evenodd" d="M1258,1 L1211,13 L1064,466 L625,692 L517,1026 L557,1039 L858,885 L854,905 L783,1123 L410,1312 L591,754 L599,750 L580,713 L205,904 L5,1519 L1,1522 L19,1558 L816,1153 L911,856 L893,821 L576,982 L577,972 L659,720 L1044,523 L845,1140 L896,1112 L1097,496 L1349,368 L1153,990 L1202,957 L1402,342 L1382,304 L1117,438Z M538,781 L358,1340 L58,1493 L63,1470 L237,935Z"/>
+    </defs>
+  </svg>
+
+  <!-- Menú -->
+  <nav class="menu">
+    <div class="contenedor menu-fila">
+      <a class="marca" href="index.html" aria-label="Grupo OSH, inicio">
+        <svg class="logo-mini" viewBox="0 0 1403 1600" aria-hidden="true">
+          <use href="#osh" class="logo-sombra" transform="translate(0 40)"/>
+          <use href="#osh" class="logo-rojo"/>
+        </svg>
+        <span>Grupo OSH</span>
+      </a>
+      <div class="enlaces">
+        <a href="#nosotros"><small>01</small>Nosotros</a>
+        <a href="#equipo"><small>02</small>Equipo</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Cabecera -->
+  <header class="cabecera">
+    <div class="rejilla" aria-hidden="true"></div>
+    <div class="franja franja-1" aria-hidden="true"></div>
+    <div class="franja franja-2" aria-hidden="true"></div>
+
+    <div class="contenedor cabecera-fila">
+      <div class="cabecera-texto">
+        <p class="etiqueta" aria-hidden="true"><span></span>OSH // 2026</p>
+        <h1 class="glitch" data-texto="Grupo OSH">Grupo OSH</h1>
+        <p class="lema">Diseño Multimedia</p>
+        <a class="boton" href="#equipo"><span>Conoce al equipo</span></a>
+      </div>
+
+      <div class="cabecera-logo">
+        <svg viewBox="-20 -20 1443 1660" role="img" aria-label="Logo de Grupo OSH">
+          <use href="#osh" class="logo-sombra" transform="translate(0 40)"/>
+          <use href="#osh" class="logo-rojo"/>
+          <use href="#osh" class="logo-trazo"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="cinta" aria-hidden="true">
+      <div class="cinta-pista">
+        <span>Grupo OSH</span><b>✕</b><span>Diseño Multimedia</span><b>✕</b>
+        <span>Grupo OSH</span><b>✕</b><span>Diseño Multimedia</span><b>✕</b>
+        <span>Grupo OSH</span><b>✕</b><span>Diseño Multimedia</span><b>✕</b>
+        <span>Grupo OSH</span><b>✕</b><span>Diseño Multimedia</span><b>✕</b>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Presentación del equipo -->
+    <section class="seccion nosotros" id="nosotros">
+      <div class="contenedor nosotros-fila">
+        <div class="titulo-bloque">
+          <span class="numero" aria-hidden="true">01</span>
+          <h2>Quiénes somos</h2>
+        </div>
+        <div class="nosotros-caja">
+          <p>Somos estudiantes de Diseño Multimedia de la Universidad Politécnica Salesiana. Tratando de hacer los mejores diseños del mundo mundial xD</p>
+        </div>
+        <div class="barras" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tarjetas de los integrantes -->
+    <section class="seccion equipo" id="equipo">
+      <div class="contenedor">
+        <div class="titulo-bloque">
+          <span class="numero" aria-hidden="true">02</span>
+          <h2>Conoce a nuestro equipo</h2>
+        </div>
+
+        <div class="tarjetas">
+          <article class="tarjeta">
+            <div class="tarjeta-cuerpo">
+              <div class="tarjeta-imagen">
+                <img src="imagenes/integrante1.png" alt="Christopher Arpi">
+                <span class="tarjeta-numero" aria-hidden="true">01</span>
+              </div>
+              <div class="texto">
+                <h3>Christopher Arpi</h3>
+                <p class="sobrenombre">Rephaysz</p>
+                <p>Lolero profesional y aveces especializado en diseño grafico</p>
+                <a class="boton boton-chico" href="integrantes/integrante1/index.html"><span>Ver perfil</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="tarjeta">
+            <div class="tarjeta-cuerpo">
+              <div class="tarjeta-imagen">
+                <img src="imagenes/WhatsApp Image 2026-11-23 at 11.36.13 AM.jpeg" alt="Carolina Loja">
+                <span class="tarjeta-numero" aria-hidden="true">02</span>
+              </div>
+              <div class="texto">
+                <h3>Carolina Loja</h3>
+                <p class="sobrenombre">Krysa</p>
+                <p>Diseñadora grafica</p>
+                <a class="boton boton-chico" href="integrantes/integrante2/index.html"><span>Ver perfil</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="tarjeta">
+            <div class="tarjeta-cuerpo">
+              <div class="tarjeta-imagen">
+                <img src="imagenes/LogoJuanse.png" alt="Juan Segarra">
+                <span class="tarjeta-numero" aria-hidden="true">03</span>
+              </div>
+              <div class="texto">
+                <h3>Juan Segarra</h3>
+                <p class="sobrenombre">Juanse</p>
+                <p>Productor audiovisual, diseñador gráfico y músico.</p>
+                <a class="boton boton-chico" href="integrantes/integrante3/index.html"><span>Ver perfil</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="tarjeta">
+            <div class="tarjeta-cuerpo">
+              <div class="tarjeta-imagen">
+                <img src="imagenes/LogoMATEX.png" alt="Mateo Zuña">
+                <span class="tarjeta-numero" aria-hidden="true">04</span>
+              </div>
+              <div class="texto">
+                <h3>Mateo Zuña</h3>
+                <p class="sobrenombre">MATEX</p>
+                <p>Diseñador multimedia con especialidad en Desarrollo Front-End, Diseño Publicitario y Motion Graphics.</p>
+                <a class="boton boton-chico" href="integrantes/integrante4/index.html"><span>Ver perfil</span></a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="pie">
+    <div class="contenedor pie-fila">
+      <svg class="logo-pie" viewBox="0 0 1403 1600" aria-hidden="true">
+        <use href="#osh" class="logo-sombra" transform="translate(0 40)"/>
+        <use href="#osh" class="logo-rojo"/>
+      </svg>
+      <div>
+        <p><strong>Grupo OSH</strong> · Diseño Multimedia</p>
+        <p>Universidad Politécnica Salesiana · Programación Aplicada a la Multimedia · 2026</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
